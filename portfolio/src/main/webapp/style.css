@@ -5,5 +5,39 @@
 }
 
 #greeting-container {
-  margin-top: 20px;
+  margin-top: 40px;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16pt;
+  color: cadetblue;
+}
+
+img {
+  width: 200px;
+  height: 200px;
+  float: left;
+  margin-right: 25px;
+  border-radius: 8px;
+}
+
+h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 60pt;
+  font-style: bold;
+  color: cadetblue;
+}
+
+p {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14pt;
+}
+
+button {
+  background-color: cadetblue;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  border: none;
+  display: inline-block;
+  font-size: 16px;
 }
