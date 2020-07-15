@@ -2,17 +2,78 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Tallie's Portfolio</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="content">
-      <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
-    </div>
+    <div class="gridContainer">
+      <div class="gridElement pageHeader">
+        <h1>Tallie's Portfolio</h1>
+        <h2>Hello! This is my portfolio.</h2>
+      </div>
+      <div class="gridElement pictureOfMe">
+        <img class="leftPic" src="/images/ProfilePicture.jpg" alt="picture of me">
+      </div>
+      <div class="gridElement myBackground">
+        <h3>About me</h3>
+        <p>I am going into my third year of a computer science degree at 
+          the University of Edinburgh, and my favourite programming 
+          language is Python.</p>
+        <p>Click here to get a random fact about me:</p>
+        <button onclick="addRandomGreeting()">Click me!</button>
+        <div id="greeting-container"></div>
+        <p> I first discovered programming and computers when my Dad gave me a book on HTML 4.
+          Even at the time, it was full of out outdated elements and long-gone web browers but
+          it soon became one of my favourite books. I'd spend hours making random web pages
+          with radio buttons, drop-down lists and marquees. I even once built a form to order
+          chocolate bars (you can see where my priorities lay then!).</p>
+      </div>
+      <div class="gridElement likesAndDislikes">
+        <h3>Likes</h3>
+        <ul>
+          <li>Christmas</li>
+          <li>Rainy days</li>
+          <li>Bullet Journalling</li>
+          <li>Music</li>
+          <li>Puzzles - particularly Google's Puzzlebook</li>
+        </ul>
+        <h3>Dislikes</h3>
+        <ul>
+          <li>Horror films</li>
+          <li>Brussel sprouts</li>
+          <li>Marmite</li>
+          <li>Burnt toast</li>
+        </ul>
+      </div>
+      <div class="gridElement myProjects">
+        <h3>List of projects I've worked on:</h3>
+        <h4>Crossword Solver</h4>
+        <ul>
+          <li>I wrote two versions - one using C and the other using the MIPS assembly language.</li>
+          <li>It could take a dictionary and a crossword, and would then return the words that appeared
+            both in the dictionary and the crossword.</li>
+          <li> It found horizontal, vertical and diagonal words - as well as wrap-around words!</li>
+        </ul>
+      </div>
+      <div class="gridElement scotlandIntro">
+        <h3>Scotland!</h3>
+        <p>As a student at the University of Edinburgh, I get to see Edinburgh's beautiful
+          gothic architecture every day - but there are many more incredible places around 
+          Scotland. Here are some pictures from when I took a road-trip across the country!</p>
+      </div>
+      <div class="gridElement picturesOfScotland">  
+        <div id="picture-container"></div>
+        <button onclick="showNextPicture()">Next Pic!</button>
+      </div>
+      <div class="gridElement descOfScotland">
+        <div id="desc-container"></div>
+      </div>
+      <div class="gridElement myLinks">
+        <p>Come and say hi!</p>
+        <a href="https://github.com/tblanshard"><img class="logo" src="/images/github_PNG20.png" alt="github_logo"></a>
+        <a href="https://www.linkedin.com/in/tallie-blanshard-7b744b132"><img class="logo" src="/images/linked-in-2668700_1280.png" alt="linkedin_logo"></a>
+      </div>
+    </div>    
   </body>
 </html>
