@@ -55,6 +55,15 @@
             both in the dictionary and the crossword.</li>
           <li> It found horizontal, vertical and diagonal words - as well as wrap-around words!</li>
         </ul>
+        <h4>Stock Check App</h4>
+        <ul>
+          <li>A mobile app written for Windows devices, using Xamarin (C# and XAML).</li>
+          <li>Created for the online coffee company, Another Coffee, to help with stock checks.</li>
+          <li>I used open-source barcode scanner software to help the app read product barcodes. It could 
+            then connect to the company database to allow live-updates of the stock levels.</li>
+          <li>It had several uses, including: stock checks, updating stock levels after the arrival of 
+            deliveries, and simply allowing the user to get more details about a product in the warehouse.</li>
+        </ul>
       </div>
       <div class="gridElement scotlandIntro">
         <h3>Scotland!</h3>
@@ -68,6 +77,16 @@
       </div>
       <div class="gridElement descOfScotland">
         <div id="desc-container"></div>
+      </div>
+      <div class="gridElement myFavourites">
+        <h4>My Favourite Things</h4>
+        <p>Hover over each category to see what it is, and click for more information!</p>
+        <button onmouseover=showTitle('TV') onclick="showDesc('TV')">TV</button>
+        <button onmouseover=showTitle('Book') onclick=showDesc('Book')>Book</button>
+        <button onmouseover=showTitle('Film') onclick=showDesc('Film')>Film</button>
+        <button onmouseover=showTitle('City') onclick=showDesc('City')>City</button>
+        <div id="faveTitle-container"></div>
+        <div id="faveDesc-container"></div>
       </div>
       <div class="gridElement myLinks">
         <p>Come and say hi!</p>
