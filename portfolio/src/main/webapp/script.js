@@ -130,3 +130,27 @@ function showDesc(category) {
       " volcano, Arthur's Seat, which provides incredible views from the top.";
   }
 }
+
+function daysUntilXmas() {
+  const dateNow = new Date();
+  const christmas = new Date();
+  christmas.setMonth(11);
+  christmas.setDate(25);
+
+  //Determines whether the current date is before or after Christmas,
+  //taking the following year's Christmas if it is to avoid negative days.
+  if (dateNow.getMonth()+1 == 12 && dateNow.getDate() >= 25){
+    christmas.setFullYear(dateNow.getFullYear() + 1);
+  }
+  else {
+    christmas.setFullYear(dateNow.getFullYear());
+  }
+
+  const daysXmasContainer = document.getElementById('daysXmas-container');
+  const daysLeft = Math.floor((christmas - dateNow)/(1000*60*60*24));
+  daysXmasContainer.innerText = daysLeft;
+
+  //Make button invisible once clicked as not needed anymore.
+  const xmasButtonContainer = document.getElementById('xmasButton');
+  xmasButtonContainer.style.display = "none";
+}
