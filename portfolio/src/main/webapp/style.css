@@ -1,11 +1,12 @@
 .gridContainer {
   display: grid;
-  width: 900px;
-  grid-template-columns: repeat(2, 450px);
-  grid-template-rows: auto 440px auto auto auto auto auto;
+  width: 1000px;
+  grid-template-columns: repeat(2, 435px);
+  grid-template-rows: auto 425px auto auto auto auto auto auto;
   align-content: center;
   justify-content: center;
   grid-gap: 1rem;
+  background-color: white;
 }
 
 .gridElement {
@@ -62,9 +63,15 @@
   display: flex;
 }
 
-.myLinks {
+.myFavourites {
   grid-column: 1 / 3;
   grid-row: 7 / 8;
+  width: 100%;
+}
+
+.myLinks {
+  grid-column: 1 / 3;
+  grid-row: 8 / 9;
   text-align: center;
   width: 100%;
 }
@@ -75,18 +82,27 @@
   margin-top: 20px;
 }
 
-p, #greeting-container, #desc-container, li {
+p, #greeting-container, #desc-container, #faveDesc-container, li {
   font-size: 14pt;
 }
 
-#greeting-container {
+#greeting-container, {
   margin-top: 10px;
   color: cadetblue;
 }
 
-#desc-container {
+#desc-container, #faveDesc-container {
   text-align: left;
   color: cadetblue;
+}
+
+#faveTitle-container {
+  font-size: 16pt;
+  margin-top: 10px;
+}
+
+body {
+  background-color: cadetblue;
 }
 
 div {
@@ -113,7 +129,7 @@ h1 {
   color: cadetblue;
 }
 
-h2, h3 {
+h2, h3, #faveTitle-container {
   color:darkgray;
 }
 

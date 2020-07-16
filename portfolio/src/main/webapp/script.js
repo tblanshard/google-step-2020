@@ -43,7 +43,7 @@ function showNextPicture() {
 
   const desc08262273 = "There are hundreds of lochs around Scotland, all of which are" +
     " used for a wide range of purposes such as boat tours, water-sports and an ecosystem" +
-    " for a host of wildlife. This is Loch Lochie - a beautiful loch surrounded by hills" +
+    " for a host of wildlife. This is Loch Loaman - a beautiful loch surrounded by hills" +
     " and heather." 
   const desc08262311 = "Glen Coe is a Scottish glen that was formed through volcanic" +
     " processes! You're lucky if you can see anything given it is usually shrouded in fog -" +
@@ -82,4 +82,51 @@ function showNextPicture() {
   const descContainer = document.getElementById('desc-container');
   pictureContainer.innerHTML = "<img class=\"scotlandPicture\" src=\"/images/"+picture+"\">";
   descContainer.innerText = description;
+}
+
+function showTitle(category) {
+  titleContainer = document.getElementById('faveTitle-container');
+  if (category == "TV") {
+    titleContainer.innerText = "Umbrella Academy";
+  }
+  else if (category == "Book") {
+    titleContainer.innerText = "The Hitchhikers Guide to the Galaxy";
+  }
+  else if (category == "Film") {
+    titleContainer.innerText = "The Saint";
+  }
+  else {
+    titleContainer.innerText = "Edinburgh";
+  }
+}
+
+function showDesc(category) {
+  showTitle(category);
+  descContainer = document.getElementById('faveDesc-container');
+  if (category == "TV") {
+    descContainer.innerText = "Based on the comic book series with the same name, Umbrella Academy" +
+      " is a science-fiction, superhero-fiction, dark comedy that focuses on the lives of 6 extraordinary" +
+      " people, all born on the same day with a wide range of powers, and their sister who's perfectly normal.";
+  }
+  else if (category == "Book") {
+    descContainer.innerText = "Written by Douglas Adams, The Hitchhikers Guide to the Galaxy is a sci-fi comedy" +
+      " following the adventures of Arthur Dent and his friend Ford Prefect (who turns out to be a travel writer" +
+      " for the intergalactic guide book - 'The Hitchhikers Guide to the Galaxy'. Dent meets a wide range of curious" +
+      " characters along the way as they travel space, having escaped Earth before it was demolished to make way for an" +
+      " intergalactic highway.";
+  }
+  else if (category == "Film") {
+    descContainer.innerText = "Starring Val Kilmer, The Saint is an espionage thriller about a high-tech thief," +
+      " master-of-disguise and anti-hero as he attempts to steal the formula for cold fusion from an unwitting" +
+      " American electrochemist.";
+  }
+  else {
+    descContainer.innerText = "Despite the fact that it rains most of the time and it can go from bright sunshine" +
+      " to torrential thunderstorms within a matter of seconds, Edinburgh is my favourite city to live in (and visit!)" +
+      " Winter brings the Christmas market, transforming the city into a winter wonderland whilst Summer brings the" +
+      " internationally-renound Edinburgh Fringe Festival - bringing hundreds of thousands of people from all over the" +
+      " world to see a wide range of events and performances. The city itself hosts a intriguing mix of modern and" +
+      " historic architecture, as well as numerous green open spaces. Lying on the edge of the city is an innactive" +
+      " volcano, Arthur's Seat, which provides incredible views from the top.";
+  }
 }
