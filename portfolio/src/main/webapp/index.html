@@ -30,15 +30,20 @@
           chocolate bars (you can see where my priorities lay then!).</p>
       </div>
       <div class="gridElement likesAndDislikes">
-        <h3>Likes</h3>
+        <h3 id="likeHeader">Likes</h3>
         <ul>
           <li>Christmas</li>
+          <p id="xmasCounterHeader">Days left until Christmas: </p>
+          <p id="daysXmas-container"></p>
+          <div id='xmasButton'>
+            <button id="xmasCounter" onclick="daysUntilXmas()">How many days until Christmas?</button>
+          </div>
           <li>Rainy days</li>
           <li>Bullet Journalling</li>
           <li>Music</li>
           <li>Puzzles - particularly Google's Puzzlebook</li>
         </ul>
-        <h3>Dislikes</h3>
+        <h3 id="dislikeHeader">Dislikes</h3>
         <ul>
           <li>Horror films</li>
           <li>Brussel sprouts</li>
@@ -79,7 +84,7 @@
         <div id="desc-container"></div>
       </div>
       <div class="gridElement myFavourites">
-        <h4>My Favourite Things</h4>
+        <h3>My Favourite Things</h3>
         <p>Hover over each category to see what it is, and click for more information!</p>
         <button onmouseover=showTitle('TV') onclick="showDesc('TV')">TV</button>
         <button onmouseover=showTitle('Book') onclick=showDesc('Book')>Book</button>
@@ -87,6 +92,9 @@
         <button onmouseover=showTitle('City') onclick=showDesc('City')>City</button>
         <div id="faveTitle-container"></div>
         <div id="faveDesc-container"></div>
+      </div>
+      <div class="gridElement interactiveElement">
+        <p id="rotatingText">I turn upside down.</p>
       </div>
       <div class="gridElement myLinks">
         <p>Come and say hi!</p>

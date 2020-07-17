@@ -2,7 +2,7 @@
   display: grid;
   width: 1000px;
   grid-template-columns: repeat(2, 435px);
-  grid-template-rows: auto 425px auto auto auto auto auto auto;
+  grid-template-rows: auto 425px auto auto auto auto auto auto auto;
   align-content: center;
   justify-content: center;
   grid-gap: 1rem;
@@ -76,24 +76,38 @@
   width: 100%;
 }
 
+.interactiveElement {
+  grid-column: 1 / 3;
+  grid-row: 9 / 10;
+}
+
+.interactiveElement:hover {
+  transform: rotate(180deg);
+  color: cadetblue;
+}
+
 .scotlandPicture {
   height: 264px;
   width: 440px;
   margin-top: 20px;
 }
 
-p, #greeting-container, #desc-container, #faveDesc-container, li {
+p, #greeting-container, #desc-container, #daysXmas-container, li {
   font-size: 14pt;
 }
 
-#greeting-container, {
+#greeting-container {
   margin-top: 10px;
   color: cadetblue;
 }
 
-#desc-container, #faveDesc-container {
+#desc-container, #faveDesc-container, #daysXmas-container {
   text-align: left;
   color: cadetblue;
+}
+
+#faveDesc-container {
+  font-size: 12pt;
 }
 
 #faveTitle-container {
@@ -101,8 +115,33 @@ p, #greeting-container, #desc-container, #faveDesc-container, li {
   margin-top: 10px;
 }
 
+#likeHeader:hover {
+  color: green;
+}
+
+#dislikeHeader:hover {
+  color: red;
+}
+
+#xmasCounter {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: 20px;
+  display: inline-block;
+}
+
+#xmasCounterHeader, #daysXmas-container {
+  margin-left: 20px;
+  font-weight: bold;
+  display: inline;
+}
+
 body {
   background-color: cadetblue;
+}
+
+li {
+  margin-top: 5px;
 }
 
 div {
