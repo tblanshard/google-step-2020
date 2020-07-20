@@ -136,6 +136,10 @@ p, #greeting-container, #desc-container, #daysXmas-container, li {
   display: inline;
 }
 
+#welcome-text {
+  color: #505050;
+}
+
 body {
   background-color: cadetblue;
 }

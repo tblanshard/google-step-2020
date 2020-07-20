@@ -12,7 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-window.onload = showNextPicture;
+window.onload = loadPage;
+
+/**
+ * Function to allow multiple function calls on page load.
+ */
+function loadPage() {
+  getWelcome();
+  showNextPicture();
+}
 
 /**
  * Adds a random greeting to the page.
@@ -167,4 +175,10 @@ function daysUntilXmas() {
   // Make button invisible once clicked as not needed anymore.
   const xmasButtonContainer = document.getElementById('xmasButton');
   xmasButtonContainer.style.display = 'none';
+}
+
+async function getWelcome() {
+  const response = await fetch('/data');
+  const quote = await response.text();
+  document.getElementById('welcome-container').innerHTML = quote;
 }
