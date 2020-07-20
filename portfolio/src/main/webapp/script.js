@@ -15,7 +15,7 @@
 window.onload = loadPage;
 
 /**
- * Calculates the number of days left until Christmas.
+ * Function to allow multiple function calls on page load.
  */
 function loadPage() {
   getWelcome();
