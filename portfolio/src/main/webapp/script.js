@@ -18,7 +18,7 @@ window.onload = loadPage;
  * Function to allow multiple function calls on page load.
  */
 function loadPage() {
-  getWelcome();
+  getMessages();
   showNextPicture();
 }
 
@@ -177,8 +177,16 @@ function daysUntilXmas() {
   xmasButtonContainer.style.display = 'none';
 }
 
-async function getWelcome() {
-  const response = await fetch('/data');
-  const quote = await response.text();
-  document.getElementById('welcome-container').innerHTML = quote;
+function getMessages() {
+  fetch('/data')
+  .then(response => response.json())
+  .then((messages) => {
+    const messageContainer = document.getElementById("message-container");
+    var messageHTML = "";
+    for (var i = 0; i < messages.length; i++){
+      messageHTML += "<p>"+messages[i]+"</p>"
+    }
+    messageContainer.innerHTML = messageHTML;
+  });
 }
+  
