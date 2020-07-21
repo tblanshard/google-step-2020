@@ -184,7 +184,11 @@ function getMessages() {
     const messageContainer = document.getElementById("message-container");
     var messageHTML = "";
     for (var i = 0; i < messages.length; i++){
-      messageHTML += "<p>"+messages[i]+"</p>"
+      messageHTML += "<div id=\"userComment\">"
+      messageHTML += "<h4 id=\"messageHeader\">"+messages[i][0]+"</h4>";
+      messageHTML += "<h4 id=\"messageDateTime\">"+messages[i][1]+"</h4>";
+      messageHTML += "<p id=\"messageText\">"+messages[i][2]+"</p>";
+      messageHTML += "</div>"
     }
     messageContainer.innerHTML = messageHTML;
   });
