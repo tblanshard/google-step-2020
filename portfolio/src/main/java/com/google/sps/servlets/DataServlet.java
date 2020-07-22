@@ -19,6 +19,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import com.google.gson.Gson;
 
@@ -26,13 +28,33 @@ import com.google.gson.Gson;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
     
-    ArrayList<String> messages = new ArrayList<String>(
-      Arrays.asList("This", "Is A", "Message"));
+  ArrayList<ArrayList<String>> messages = new ArrayList<>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("application/json;");
     String json = new Gson().toJson(messages);
     response.getWriter().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String userName = getParameter(request, "userName", "");
+    String userMessage = getParameter(request, "userMessage", "");
+    LocalDateTime dateTime = LocalDateTime.now();
+    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    String dateTimeFormatted = dateTime.format(format);
+    ArrayList<String> userComment = new ArrayList<>(
+      Arrays.asList(userName, dateTimeFormatted, userMessage));
+    messages.add(userComment);
+    response.sendRedirect("/index.html");
+  }
+
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
+    }
+    return value;
   }
 }
