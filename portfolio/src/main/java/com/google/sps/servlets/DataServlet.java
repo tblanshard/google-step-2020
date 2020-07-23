@@ -19,6 +19,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.sps.data.Comment;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -28,25 +35,43 @@ import com.google.gson.Gson;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
     
-  ArrayList<ArrayList<String>> messages = new ArrayList<>();
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Query query = new Query("Comment").addSort("dateTime", SortDirection.DESCENDING);
+    PreparedQuery results = datastore.prepare(query);
+
+    List<Comment> comments = new ArrayList<>();
+
+    for (Entity entity : results.asIterable()){
+      String userName = (String) entity.getProperty("name");
+      String dateTime = (String) entity.getProperty("dateTime");
+      String userMessage = (String) entity.getProperty("message");
+
+      System.out.println(userName.getClass().getName());
+
+      Comment userComment = new Comment(userName, dateTime, userMessage);
+      comments.add(userComment);
+    }
+    
     response.setContentType("application/json;");
-    String json = new Gson().toJson(messages);
-    response.getWriter().println(json);
+    Gson gson = new Gson();
+    response.getWriter().println(gson.toJson(comments));
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Entity commentEntity = new Entity("Comment");
     String userName = getParameter(request, "userName", "");
     String userMessage = getParameter(request, "userMessage", "");
     LocalDateTime dateTime = LocalDateTime.now();
     DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     String dateTimeFormatted = dateTime.format(format);
-    ArrayList<String> userComment = new ArrayList<>(
-      Arrays.asList(userName, dateTimeFormatted, userMessage));
-    messages.add(userComment);
+    commentEntity.setProperty("name", userName);
+    commentEntity.setProperty("dateTime", dateTimeFormatted);
+    commentEntity.setProperty("message", userMessage);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
     response.sendRedirect("/index.html");
   }
 

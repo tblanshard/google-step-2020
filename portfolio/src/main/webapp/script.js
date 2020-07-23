@@ -18,8 +18,8 @@ window.onload = loadPage;
  * Function to allow multiple function calls on page load.
  */
 function loadPage() {
-  getMessages();
   showNextPicture();
+  getMessages();
 }
 
 /**
@@ -183,13 +183,18 @@ function getMessages() {
   .then((messages) => {
     const messageContainer = document.getElementById("message-container");
     var messageHTML = "";
-    for (var i = 0; i < messages.length; i++){
-      messageHTML += "<div id=\"userComment\">"
-      messageHTML += "<h4 id=\"messageHeader\">"+messages[i][0]+"</h4>";
-      messageHTML += "<h4 id=\"messageDateTime\">"+messages[i][1]+"</h4>";
-      messageHTML += "<p id=\"messageText\">"+messages[i][2]+"</p>";
-      messageHTML += "</div>"
+    if (messages.length == 0){
+      messageHTML += "<p>Looks like no-one has left any comments :( Why not leave one and be the first!<p>";
+    } else {
+      for (var i = 0; i < messages.length; i++){
+        messageHTML += "<div id=\"userComment\">"
+        messageHTML += "<h4 id=\"messageHeader\">"+messages[i]["name"]+"</h4>";
+        messageHTML += "<h4 id=\"messageDateTime\">"+messages[i]["dateTime"]+"</h4>";
+        messageHTML += "<p id=\"messageText\">"+messages[i]["message"]+"</p>";
+        messageHTML += "</div>"
+      }
     }
+
     messageContainer.innerHTML = messageHTML;
   });
 }
