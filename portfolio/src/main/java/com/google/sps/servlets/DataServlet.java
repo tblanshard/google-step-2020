@@ -37,6 +37,7 @@ public class DataServlet extends HttpServlet {
     
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Integer numberOfComments = Integer.parseInt(request.getParameter("quantity"));
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Query query = new Query("Comment").addSort("dateTime", SortDirection.DESCENDING);
     PreparedQuery results = datastore.prepare(query);
@@ -47,16 +48,17 @@ public class DataServlet extends HttpServlet {
       String userName = (String) entity.getProperty("name");
       String dateTime = (String) entity.getProperty("dateTime");
       String userMessage = (String) entity.getProperty("message");
-
-      System.out.println(userName.getClass().getName());
-
       Comment userComment = new Comment(userName, dateTime, userMessage);
       comments.add(userComment);
     }
     
     response.setContentType("application/json;");
     Gson gson = new Gson();
-    response.getWriter().println(gson.toJson(comments));
+    if (numberOfComments >= comments.size()){
+      response.getWriter().println(gson.toJson(comments));
+    } else {
+      response.getWriter().println(gson.toJson(comments.subList(0,numberOfComments)));
+    }
   }
 
   @Override
@@ -64,15 +66,17 @@ public class DataServlet extends HttpServlet {
     Entity commentEntity = new Entity("Comment");
     String userName = getParameter(request, "userName", "");
     String userMessage = getParameter(request, "userMessage", "");
-    LocalDateTime dateTime = LocalDateTime.now();
-    DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-    String dateTimeFormatted = dateTime.format(format);
-    commentEntity.setProperty("name", userName);
-    commentEntity.setProperty("dateTime", dateTimeFormatted);
-    commentEntity.setProperty("message", userMessage);
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    datastore.put(commentEntity);
-    response.sendRedirect("/index.html");
+    if (userMessage != "" && userName != "") {
+      LocalDateTime dateTime = LocalDateTime.now();
+      DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+      String dateTimeFormatted = dateTime.format(format);
+      commentEntity.setProperty("name", userName);
+      commentEntity.setProperty("dateTime", dateTimeFormatted);
+      commentEntity.setProperty("message", userMessage);
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(commentEntity);
+    }
+    response.sendRedirect("/index.html#commentSection");
   }
 
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {

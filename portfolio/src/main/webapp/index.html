@@ -101,17 +101,27 @@
         <a href="https://github.com/tblanshard"><img class="logo" src="/images/github_PNG20.png" alt="github_logo"></a>
         <a href="https://www.linkedin.com/in/tallie-blanshard-7b744b132"><img class="logo" src="/images/linked-in-2668700_1280.png" alt="linkedin_logo"></a>
       </div>
-      <div class="gridElement commentSection">
+      <div id="commentSection" class="gridElement commentSection">
         <h2>Comment Section</h2>
-        <form action="/data" method="POST">
-          <h3 class="label">Name</h3>
+        <h3>See what people have to say!</h3>
+        <div id="message-container"></div>
+        <form action="/data" method="POST"
+          <p>How many comments would you like to see?</p>
+          <select name="commentCount" id="commentCount" onchange="getMessages()">
+            <option value="1">1</option>
+            <option selected="selected" value="5">5</option>
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+          </select>
+          <h3>Say hi, tell a joke, share a fun fact...</h3>
+          <label class="label">Name</label>
           <input type="text" name="userName">
-          <h3 class="label">Message</h3>
+          <label class="label">Message</label>
           <textarea name="userMessage"></textarea>
           <button id="submitComment" type="input">Submit</button>
         </form>
-        <h3>See what people have to say!</h3>
-        <div id="message-container"></div>
+        <button id="removeComments" onclick="deleteMessages()">Delete All Comments</button>
       </div>
     </div>    
   </body>

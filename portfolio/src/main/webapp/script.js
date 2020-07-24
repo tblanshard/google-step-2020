@@ -178,13 +178,15 @@ function daysUntilXmas() {
 }
 
 function getMessages() {
-  fetch('/data')
+  var quantity = document.getElementById('commentCount');
+  const request = new Request('/data?quantity='+quantity.value, {method:'GET'});
+  fetch(request)
   .then(response => response.json())
   .then((messages) => {
     const messageContainer = document.getElementById("message-container");
     var messageHTML = "";
     if (messages.length == 0){
-      messageHTML += "<p>Looks like no-one has left any comments :( Why not leave one and be the first!<p>";
+      messageHTML += "<p id=\"noComments\">Looks like no-one has left any comments :( Why not leave one and be the first!<p>";
     } else {
       for (var i = 0; i < messages.length; i++){
         messageHTML += "<div id=\"userComment\">"
@@ -199,3 +201,8 @@ function getMessages() {
   });
 }
   
+function deleteMessages() {
+  const request = new Request('/delete-data', {method: 'POST'}); 
+  fetch(request)
+  .then(getMessages());
+}
