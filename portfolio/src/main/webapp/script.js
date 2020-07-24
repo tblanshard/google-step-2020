@@ -178,7 +178,9 @@ function daysUntilXmas() {
 }
 
 function getMessages() {
-  fetch('/data')
+  var quantity = document.getElementById('commentCount');
+  const request = new Request('/data?quantity='+quantity.value, {method:'GET'});
+  fetch(request)
   .then(response => response.json())
   .then((messages) => {
     const messageContainer = document.getElementById("message-container");
@@ -199,3 +201,8 @@ function getMessages() {
   });
 }
   
+function deleteMessages() {
+  const request = new Request('/delete-data', {method: 'POST'}); 
+  fetch(request)
+  .then(getMessages());
+}
