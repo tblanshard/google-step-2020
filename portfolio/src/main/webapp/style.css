@@ -170,6 +170,10 @@ p, #greeting-container, #desc-container, #daysXmas-container, li {
   background-color: red;
 }
 
+#noComments {
+  color: cadetblue;
+}
+
 body {
   background-color: cadetblue;
 }

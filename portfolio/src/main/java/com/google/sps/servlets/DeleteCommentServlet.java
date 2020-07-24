@@ -47,7 +47,5 @@ public class DeleteCommentServlet extends HttpServlet {
       keys.add(key);
     }
     datastore.delete(keys);
-    response.sendRedirect("/index.html");
   }
-
 }

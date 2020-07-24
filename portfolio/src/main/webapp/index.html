@@ -101,7 +101,7 @@
         <a href="https://github.com/tblanshard"><img class="logo" src="/images/github_PNG20.png" alt="github_logo"></a>
         <a href="https://www.linkedin.com/in/tallie-blanshard-7b744b132"><img class="logo" src="/images/linked-in-2668700_1280.png" alt="linkedin_logo"></a>
       </div>
-      <div class="gridElement commentSection">
+      <div id="commentSection" class="gridElement commentSection">
         <h2>Comment Section</h2>
         <h3>See what people have to say!</h3>
         <div id="message-container"></div>
@@ -120,8 +120,8 @@
           <label class="label">Message</label>
           <textarea name="userMessage"></textarea>
           <button id="submitComment" type="input">Submit</button>
-          <button id="removeComments" onclick="deleteMessages()">Delete All Comments</button>
         </form>
+        <button id="removeComments" onclick="deleteMessages()">Delete All Comments</button>
       </div>
     </div>    
   </body>

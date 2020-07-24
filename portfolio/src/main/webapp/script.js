@@ -186,7 +186,7 @@ function getMessages() {
     const messageContainer = document.getElementById("message-container");
     var messageHTML = "";
     if (messages.length == 0){
-      messageHTML += "<p>Looks like no-one has left any comments :( Why not leave one and be the first!<p>";
+      messageHTML += "<p id=\"noComments\">Looks like no-one has left any comments :( Why not leave one and be the first!<p>";
     } else {
       for (var i = 0; i < messages.length; i++){
         messageHTML += "<div id=\"userComment\">"
