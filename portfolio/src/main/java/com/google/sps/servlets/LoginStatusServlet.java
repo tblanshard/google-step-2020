@@ -36,17 +36,12 @@ public class LoginStatusServlet extends HttpServlet {
     if (userService.isUserLoggedIn()) {
       String userEmailAddress = userService.getCurrentUser().getEmail();
       responses.add(userEmailAddress);
-
-      //String logoutUrl = userService.createLogoutURL("/user-login-check");
-      //response.getWriter().println("<p>User logged in under the email address:  "+userEmailAddress+"</p>");
-      //response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
     } else {
       String userEmailAddress = "";
       String userLoginURLRedirect = "/index.html#commentSection";
       String loginUrl = userService.createLoginURL(userLoginURLRedirect);
       responses.add(userEmailAddress);
       responses.add(loginUrl);
-       //response.getWriter().println("<p>Oops looks like this user isn't logged in!</p>");
     }
     response.getWriter().println(gson.toJson(responses));
   }
