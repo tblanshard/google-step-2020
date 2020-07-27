@@ -191,13 +191,13 @@ function getMessages() {
     } else {
       for (var i = 0; i < messages.length; i++){
         messageHTML += "<div id=\"userComment\">"
-        messageHTML += "<h4 id=\"messageHeader\">"+messages[i]["name"]+"</h4>";
+        messageHTML += "<h4 id=\"messageHeader\">"+messages[i]["name"]+
+          " ("+messages[i]["email"]+")"+"</h4>";
         messageHTML += "<h4 id=\"messageDateTime\">"+messages[i]["dateTime"]+"</h4>";
         messageHTML += "<p id=\"messageText\">"+messages[i]["message"]+"</p>";
         messageHTML += "</div>"
       }
     }
-
     messageContainer.innerHTML = messageHTML;
   });
 }
