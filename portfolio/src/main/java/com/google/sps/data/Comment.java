@@ -19,11 +19,13 @@ public final class Comment{
   private final String name;
   private final String dateTime;
   private final String message;
+  private final String email;
 
-  public Comment(String name, String dateTime, String message){
+  public Comment(String name, String dateTime, String message, String email){
     this.name = name;
     this.dateTime = dateTime;
     this.message = message;
+    this.email = email;
   }
 
 } 

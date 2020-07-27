@@ -25,6 +25,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.sps.data.Comment;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -48,7 +50,8 @@ public class DataServlet extends HttpServlet {
       String userName = (String) entity.getProperty("name");
       String dateTime = (String) entity.getProperty("dateTime");
       String userMessage = (String) entity.getProperty("message");
-      Comment userComment = new Comment(userName, dateTime, userMessage);
+      String email = (String) entity.getProperty("email");
+      Comment userComment = new Comment(userName, dateTime, userMessage, email);
       comments.add(userComment);
     }
     
@@ -63,16 +66,19 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    UserService userService = UserServiceFactory.getUserService();
     Entity commentEntity = new Entity("Comment");
     String userName = getParameter(request, "userName", "");
     String userMessage = getParameter(request, "userMessage", "");
     if (userMessage != "" && userName != "") {
+      String emailAddress = userService.getCurrentUser().getEmail();
       LocalDateTime dateTime = LocalDateTime.now();
       DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
       String dateTimeFormatted = dateTime.format(format);
       commentEntity.setProperty("name", userName);
       commentEntity.setProperty("dateTime", dateTimeFormatted);
       commentEntity.setProperty("message", userMessage);
+      commentEntity.setProperty("email", emailAddress);
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       datastore.put(commentEntity);
     }
