@@ -105,7 +105,7 @@
         <h2>Comment Section</h2>
         <h3>See what people have to say!</h3>
         <div id="message-container"></div>
-        <form action="/data" method="POST"
+        <div id="changeCommentCount">
           <p>How many comments would you like to see?</p>
           <select name="commentCount" id="commentCount" onchange="getMessages()">
             <option value="1">1</option>
@@ -114,6 +114,9 @@
             <option value="20">20</option>
             <option value="50">50</option>
           </select>
+        </div>
+        <p id="loginMessage-container"></p>
+        <form id="commentForm" action="/data" method="POST">
           <h3>Say hi, tell a joke, share a fun fact...</h3>
           <label class="label">Name</label>
           <input type="text" name="userName">

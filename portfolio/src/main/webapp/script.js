@@ -18,7 +18,8 @@ window.onload = loadPage;
  * Function to allow multiple function calls on page load.
  */
 function loadPage() {
-  showNextPicture();
+  showNextPicture()
+  checkUserLoginStatus();
   getMessages();
 }
 
@@ -205,4 +206,21 @@ function deleteMessages() {
   const request = new Request('/delete-data', {method: 'POST'}); 
   fetch(request)
   .then(getMessages());
+}
+
+function checkUserLoginStatus() {
+  const loginStatusContainer = document.getElementById("commentForm");
+  const loginMessage = document.getElementById("loginMessage-container");
+  const deleteMessageButton = document.getElementById("removeComments");
+  const request = new Request('/user-login-check', {method: 'GET'});
+  fetch(request)
+  .then(response => response.json())
+  .then((status) => {
+    if (status.length == 2) {
+      loginStatusContainer.style.display = "none";
+      loginMessage.innerHTML = "<p>Oops! Looks like you're not logged in. Please " +
+       "<a href=\""+status[1]+"\">log in</a> to leave a comment.";
+      deleteMessageButton.style.display = "none";
+    }
+  });
 }

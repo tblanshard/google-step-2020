@@ -166,7 +166,17 @@ p, #greeting-container, #desc-container, #daysXmas-container, li {
   padding-bottom: 10px;
 }
 
-#deleteMessage:hover {
+#changeCommentCount {
+  background-color: cadetblue;
+  padding: 8px;
+}
+
+#removeComments {
+  display: block;
+  margin: 10px 0px;
+}
+
+#removeComments:hover {
   background-color: red;
 }
 
