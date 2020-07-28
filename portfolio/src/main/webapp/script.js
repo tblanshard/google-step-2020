@@ -226,31 +226,127 @@ function checkUserLoginStatus() {
   });
 }
 
+let map; 
+
 function createMap() {
-  const map = new google.maps.Map(
+  map = new google.maps.Map(
     document.getElementById('map'),
     {center: {lat: 55.944572, lng: -3.187067}, zoom: 16}
   );
 
+  fetchMarkers();
+
+  map.addListener('click', (event) => {
+    createMarkerForEdit(event.latLng.lat(), event.latLng.lng());
+  });
+
+  //create marker and info for Appleton Tower
   const appletonTower = new google.maps.Marker({
     position: {lat: 55.944302, lng: -3.186942},
     map: map,
     title: 'Appleton Tower'
   });
+  const appletonTowerInfo =
+    new google.maps.InfoWindow({content: 
+    'This is where I have some of my lectures! Only final year students are allowed to use the top floor.'});
+  appletonTower.addListener('click', function() {
+    appletonTowerInfo.open(map, appletonTower);
+  });
 
+  //create marker and info for George Square Gardens
   const georgeSquareGardens = new google.maps.Marker({
     position: {lat: 55.943966, lng: -3.189259},
     map: map,
     title: 'George Square Gardens'
   });
+  const georgeSquareGardensInfo =
+    new google.maps.InfoWindow({content:
+    'This park is full of squirrels in the Autumn! It\'s full of beautiful trees that look incredible in Autumn.'});
+  georgeSquareGardens.addListener('click', function() {
+    georgeSquareGardensInfo.open(map, georgeSquareGardens);
+  });
 
+  //create marker and info for David Hume Lecture Theatres
   const dhtLectureTheatres = new google.maps.Marker({
     position: {lat: 55.943503, lng: -3.186191},
     map: map,
     title: 'David Humes Lecture Theatres'
   })
+  const dhtLectureTheatresInfo =
+    new google.maps.InfoWindow({content:
+    'This is where I have most of my lectures! There\'s a whole complex below the building with food places!'});
+  dhtLectureTheatres.addListener('click', function() {
+    dhtLectureTheatresInfo.open(map, dhtLectureTheatres);
+  });
 }
 
-function addInformation() {
+let editMarker; 
 
+function createMarkerForEdit(lat, lng) {
+  editMarker =
+      new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
+
+  const infoWindow =
+      new google.maps.InfoWindow({content: buildInfoWindowInput(lat, lng)});
+
+  // When the user closes the editable info window, remove the marker.
+  google.maps.event.addListener(infoWindow, 'closeclick', () => {
+    editMarker.setMap(null);
+  });
+
+  infoWindow.open(map, editMarker);
+}
+
+/**
+ * Builds and returns HTML elements that show an editable textbox and a submit
+ * button.
+ */
+function buildInfoWindowInput(lat, lng) {
+  const textBox = document.createElement('textarea');
+  const button = document.createElement('button');
+  button.appendChild(document.createTextNode('Submit'));
+
+  button.onclick = () => {
+    postMarker(lat, lng, textBox.value);
+    createMarkerForDisplay(lat, lng, textBox.value);
+    editMarker.setMap(null);
+  };
+
+  const containerDiv = document.createElement('div');
+  containerDiv.appendChild(textBox);
+  containerDiv.appendChild(document.createElement('br'));
+  containerDiv.appendChild(button);
+
+  return containerDiv;
+}
+
+/** Creates a marker that shows a read-only info window when clicked. */
+function createMarkerForDisplay(lat, lng, content) {
+  const marker =
+      new google.maps.Marker({position: {lat: lat, lng: lng}, map: map});
+
+  const infoWindow = new google.maps.InfoWindow({content: content});
+  marker.addListener('click', () => {
+    infoWindow.open(map, marker);
+  });
+}
+
+/** Sends a marker to the backend for saving. */
+function postMarker(lat, lng, content) {
+  const params = new URLSearchParams();
+  params.append('lat', lat);
+  params.append('lng', lng);
+  params.append('content', content);
+
+  fetch('/visitor-markers', {method: 'POST', body: params});
+}
+
+/** Fetches markers from the backend and adds them to the map. */
+function fetchMarkers() {
+  fetch('/visitor-markers')
+  .then(response => response.json())
+  .then((markers) => {
+    markers.forEach((marker) => {
+            createMarkerForDisplay(marker.lat, marker.lng, marker.content)});
+  });
 }
