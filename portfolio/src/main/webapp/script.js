@@ -18,9 +18,10 @@ window.onload = loadPage;
  * Function to allow multiple function calls on page load.
  */
 function loadPage() {
-  showNextPicture()
+  showNextPicture();
   checkUserLoginStatus();
   getMessages();
+  createMap();
 }
 
 /**
@@ -223,4 +224,33 @@ function checkUserLoginStatus() {
       deleteMessageButton.style.display = "none";
     }
   });
+}
+
+function createMap() {
+  const map = new google.maps.Map(
+    document.getElementById('map'),
+    {center: {lat: 55.944572, lng: -3.187067}, zoom: 16}
+  );
+
+  const appletonTower = new google.maps.Marker({
+    position: {lat: 55.944302, lng: -3.186942},
+    map: map,
+    title: 'Appleton Tower'
+  });
+
+  const georgeSquareGardens = new google.maps.Marker({
+    position: {lat: 55.943966, lng: -3.189259},
+    map: map,
+    title: 'George Square Gardens'
+  });
+
+  const dhtLectureTheatres = new google.maps.Marker({
+    position: {lat: 55.943503, lng: -3.186191},
+    map: map,
+    title: 'David Humes Lecture Theatres'
+  })
+}
+
+function addInformation() {
+
 }

@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8">
     <title>Tallie's Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCA1CSIx2Pn8K4N2gXjMHSIJxvZIKXYk8U"></script>
     <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <div class="gridContainer">
@@ -93,6 +94,11 @@
         <div id="faveTitle-container"></div>
         <div id="faveDesc-container"></div>
       </div>
+      <div class="gridElement myMap">
+        <h2>Map</h2>
+        <p>This is a map of the main university campus.</p>
+        <div id="map"></div>
+      </div>
       <div class="gridElement interactiveElement">
         <p id="rotatingText">I turn upside down.</p>
       </div>
@@ -126,6 +132,6 @@
         </form>
         <button id="removeComments" onclick="deleteMessages()">Delete All Comments</button>
       </div>
-    </div>    
+    </div>   
   </body>
 </html>
