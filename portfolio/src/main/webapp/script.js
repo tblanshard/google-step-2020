@@ -58,8 +58,6 @@ var currentPic = 0;
 
 function showNextPicture() {
 
-  alert(document.getElementsByTagName("head")[0].outerHTML);
-
   const pictures =
     ['08262273.JPG','08262311.JPG','08272383.JPG','08272420.JPG','08282542.JPG',
     '08282574.JPG','08302602.JPG','09012693.JPG','09022796.JPG'];
