@@ -2,7 +2,7 @@
   display: grid;
   width: 1000px;
   grid-template-columns: repeat(2, 435px);
-  grid-template-rows: auto 425px auto auto auto auto auto 500px auto auto auto;
+  grid-template-rows: auto 425px auto auto auto auto auto auto 500px auto auto auto;
   align-content: center;
   justify-content: center;
   grid-gap: 1rem;
@@ -71,25 +71,31 @@
 
 .myMap {
   grid-column: 1 / 3;
+  grid-row: 9 / 10;
+  width: 100%;
+}
+
+.myChart {
+  grid-column: 1 / 3;
   grid-row: 8 / 9;
   width: 100%;
 }
 
 .myLinks {
   grid-column: 1 / 3;
-  grid-row: 9 / 10;
+  grid-row: 10 / 11;
   text-align: center;
   width: 100%;
 }
 
 .interactiveElement {
   grid-column: 1 / 3;
-  grid-row: 10 / 11;
+  grid-row: 11 / 12;
 }
 
 .commentSection {
   grid-column: 1 / 3;
-  grid-row: 11 / 12;
+  grid-row: 12 / 13;
   margin-bottom: 75px;
   width: 100%;
 }

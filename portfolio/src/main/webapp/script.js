@@ -22,6 +22,7 @@ function loadPage() {
   showNextPicture();
   checkUserLoginStatus();
   getMessages();
+  drawChart();
   createMap();
 }
 
@@ -237,6 +238,34 @@ function checkUserLoginStatus() {
   });
 }
 
+google.charts.load('current', {'packages':['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+/** Fetches december bike data and uses it to create a chart. */
+function drawChart() {
+  fetch('/dec-bike-data')
+  .then(response => response.json())
+  .then((decBikeData) => {
+    const data = new google.visualization.DataTable();
+    data.addColumn('string', 'stationID');
+    data.addColumn('number', 'averageDuration');
+    Object.keys(decBikeData).forEach((stationID) => {
+      data.addRow([stationID, decBikeData[stationID]]);
+    });
+
+    const options = {
+      'title': 'Average Bike Ride Durations for Different Stations',
+      'width':600,
+      'height':500,
+      'legend':'none'
+    };
+
+    const chart = new google.visualization.ColumnChart(
+      document.getElementById('chart'));
+      chart.draw(data, options);
+  });
+}
+
 let map; 
 
 function createMap() {
@@ -289,6 +318,108 @@ function createMap() {
   dhtLectureTheatres.addListener('click', function() {
     dhtLectureTheatresInfo.open(map, dhtLectureTheatres);
   });
+
+  //markersForChart
+  const georgeSquare = new google.maps.Marker({
+    position: {lat: 55.94308406, lng: -3.188311073},
+    map: map,
+    title: '171'
+  })
+  const waverlyBridge = new google.maps.Marker({
+    position: {lat: 55.9513444, lng: -3.191420999},
+    map: map,
+    title: '183'
+  })
+  const cityChambers = new google.maps.Marker({
+    position: {lat: 55.95010933, lng: -3.19025777},
+    map: map,
+    title: '189'
+  })
+  const waverlyCourt = new google.maps.Marker({
+    position: {lat: 55.9517345, lng: -3.184178535},
+    map: map,
+    title: '225'
+  })
+  const royalCommonwealthPool = new google.maps.Marker({
+    position: {lat: 55.93900025, lng: -3.173923554},
+    map: map,
+    title: '246'
+  })
+  const charlotteSquare = new google.maps.Marker({
+    position: {lat: 55.95233546, lng: -3.207101172},
+    map: map,
+    title: '247'
+  })
+  const bristoSquare = new google.maps.Marker({
+    position: {lat: 55.94583372, lng: -3.189053072},
+    map: map,
+    title: '248'
+  })
+  const fountainbridge = new google.maps.Marker({
+    position: {lat: 55.94335693, lng: -3.209247502},
+    map: map,
+    title: '249'
+  })
+  const victoriaQuay = new google.maps.Marker({
+    position: {lat: 55.97761715, lng: -3.174126319},
+    map: map,
+    title: '250'
+  })
+  const waverlyStation = new google.maps.Marker({
+    position: {lat: 55.95264104, lng: -3.187526919},
+    map: map,
+    title: '251'
+  })
+  const kingsBuildings1 = new google.maps.Marker({
+    position: {lat: 55.92418541, lng: -3.17383083},
+    map: map,
+    title: '252'
+  })
+  const kingsBuildings2 = new google.maps.Marker({
+    position: {lat: 55.92320216, lng: -3.171646245},
+    map: map,
+    title: '253'
+  })
+  const kingsBuildings3 = new google.maps.Marker({
+    position: {lat: 55.92347881, lng: -3.175384585},
+    map: map,
+    title: '254'
+  })
+  const stAndrewsHouse = new google.maps.Marker({
+    position: {lat: 55.95316433, lng: -3.181682341},
+    map: map,
+    title: '256'
+  })
+  const stockbridge = new google.maps.Marker({
+    position: {lat: 55.95856559, lng: -3.208070182},
+    map: map,
+    title: '258'
+  })
+  const stAndrewsSquare = new google.maps.Marker({
+    position: {lat: 55.95490573, lng: -3.192443757},
+    map: map,
+    title: '259'
+  })
+  const lauristonPlace = new google.maps.Marker({
+    position: {lat: 55.94477165, lng: -3.197265856},
+    map: map,
+    title: '260'
+  })
+  const brunswickPlace = new google.maps.Marker({
+    position: {lat: 55.96092975, lng: -3.181005315},
+    map: map,
+    title: '261'
+  })
+  const canonmills = new google.maps.Marker({
+    position: {lat: 55.96280409, lng: -3.196283585},
+    map: map,
+    title: '262'
+  })
+  const pollockHalls = new google.maps.Marker({
+    position: {lat: 55.94008064, lng: -3.171746867},
+    map: map,
+    title: '264'
+  })
 }
 
 let editMarker; 

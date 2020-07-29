@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Tallie's Portfolio</title>
     <script id="configFile" type="text/javascript" src="config.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="script.js"></script>
     <link rel="stylesheet" href="style.css">
   </head>
@@ -93,6 +94,12 @@
         <button onmouseover="showTitle('City')" onclick="showDesc('City')">City</button>
         <div id="faveTitle-container"></div>
         <div id="faveDesc-container"></div>
+      </div>
+      <div class="gridElement myChart">
+        <h3>Chart</h3>
+        <div id="chart"></div>
+        <p>Checkout the map below for markers indicating where each of these stations are!</p>
+        <p>Have you noticed that the station where most bike journeys start is at the hospital?</p>
       </div>
       <div class="gridElement myMap">
         <h3>Map</h3>
