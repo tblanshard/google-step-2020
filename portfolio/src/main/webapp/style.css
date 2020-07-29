@@ -199,6 +199,7 @@ p, #greeting-container, #desc-container, #daysXmas-container, li {
 #map {
   height: 400px;
   display: block;
+  margin-bottom: 5px;
 }
 
 body {
