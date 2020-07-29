@@ -18,16 +18,27 @@ window.onload = loadPage;
  * Function to allow multiple function calls on page load.
  */
 function loadPage() {
+  linkMapAPI();
   showNextPicture();
   checkUserLoginStatus();
   getMessages();
   createMap();
 }
 
+async function linkMapAPI() {
+  var mapAPIScript = document.createElement("script");
+  mapAPIScript.type = "text/javascript";
+  mapAPIScript.src = "https://maps.googleapis.com/maps/api/js?key="+config.map_API+"&callback=createMap";
+  var configFile = document.getElementById("configFile");
+  var head = document.getElementsByTagName("head")[0];
+  head.insertBefore(mapAPIScript, configFile.nextSibling);
+}
+
 /**
  * Adds a random greeting to the page.
  */
 function addRandomGreeting() {
+
   const greetings =
       ['I have a younger sister.', 'Martin Clunes once narrated a short story I wrote.',
       'I live near the sea!', 'I have a pet fish, called Houdini.'];
