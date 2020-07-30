@@ -162,7 +162,8 @@ p, #greeting-container, #desc-container, #daysXmas-container, li {
 
 #userComment {
   background-color: rgb(240, 240, 240);
-  padding: 0px 15px;
+  padding: 0px 10px;
+  margin-bottom: 10px;
 }
 
 #messageHeader {
@@ -174,8 +175,25 @@ p, #greeting-container, #desc-container, #daysXmas-container, li {
   color: darkgrey;
 }
 
-#messageText {
+#sentimentScoreGood, #sentimentScoreNeutral, #sentimentScoreBad {
   padding-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+#sentimentScoreGood {
+  color: darkgreen;
+}
+
+#sentimentScoreBad {
+  color: darkred;
+}
+
+#sentimentScoreLabel {
+  display: inline-block;
+  margin: -0px 10px -0px 0px;
+  color: cadetblue;
 }
 
 #commentCount {
@@ -187,6 +205,7 @@ p, #greeting-container, #desc-container, #daysXmas-container, li {
 #changeCommentCount {
   background-color: cadetblue;
   padding: 8px;
+  margin-top: 20px;
 }
 
 #removeComments {

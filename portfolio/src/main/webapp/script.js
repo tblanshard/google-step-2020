@@ -203,12 +203,20 @@ function getMessages() {
       messageHTML += "<p id=\"noComments\">Looks like no-one has left any comments :( Why not leave one and be the first!<p>";
     } else {
       for (var i = 0; i < messages.length; i++){
-        messageHTML += "<div id=\"userComment\">"
+        messageHTML += "<div id=\"userComment\">";
         messageHTML += "<h4 id=\"messageHeader\">"+messages[i]["name"]+
           " ("+messages[i]["email"]+")"+"</h4>";
         messageHTML += "<h4 id=\"messageDateTime\">"+messages[i]["dateTime"]+"</h4>";
-        messageHTML += "<p id=\"messageText\">"+messages[i]["message"]+"</p>";
-        messageHTML += "</div>"
+        messageHTML += "<p>"+messages[i]["message"]+"</p>";
+        messageHTML += "<p id=\"sentimentScoreLabel\">This comment received a sentiment score of: </p>";
+        if (parseFloat(messages[i]["sentimentScore"]) > 0) {
+          messageHTML += "<p id=\"sentimentScoreGood\">"+messages[i]["sentimentScore"]+"</p>";
+        } else if (parseFloat(messages[i]["sentimentScore"]) < 0) {
+          messageHTML += "<p id=\"sentimentScoreBad\">"+messages[i]["sentimentScore"]+"</p>";
+        } else {
+          messageHTML += "<p id=\"sentimentScoreNeutral\">"+messages[i]["sentimentScore"]+"</p>";
+        }
+        messageHTML += "</div>";
       }
     }
     messageContainer.innerHTML = messageHTML;

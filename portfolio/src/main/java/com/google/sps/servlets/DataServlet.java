@@ -27,6 +27,9 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
 import com.google.sps.data.Comment;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -51,7 +54,8 @@ public class DataServlet extends HttpServlet {
       String dateTime = (String) entity.getProperty("dateTime");
       String userMessage = (String) entity.getProperty("message");
       String email = (String) entity.getProperty("email");
-      Comment userComment = new Comment(userName, dateTime, userMessage, email);
+      String sentimentScore = (String) entity.getProperty("sentimentScore");
+      Comment userComment = new Comment(userName, dateTime, userMessage, email, sentimentScore);
       comments.add(userComment);
     }
     
@@ -70,6 +74,15 @@ public class DataServlet extends HttpServlet {
     Entity commentEntity = new Entity("Comment");
     String userName = getParameter(request, "userName", "");
     String userMessage = getParameter(request, "userMessage", "");
+
+    Document doc =
+        Document.newBuilder().setContent(userMessage).setType(Document.Type.PLAIN_TEXT).build();
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    float score = sentiment.getScore();
+    String scoreAsString = Float.toString(score);
+    languageService.close();
+
     if (userMessage != "" && userName != "") {
       String emailAddress = userService.getCurrentUser().getEmail();
       LocalDateTime dateTime = LocalDateTime.now();
@@ -79,6 +92,7 @@ public class DataServlet extends HttpServlet {
       commentEntity.setProperty("dateTime", dateTimeFormatted);
       commentEntity.setProperty("message", userMessage);
       commentEntity.setProperty("email", emailAddress);
+      commentEntity.setProperty("sentimentScore", scoreAsString);
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       datastore.put(commentEntity);
     }
