@@ -31,9 +31,8 @@ public class DecBikeServlet extends HttpServlet {
 
   @Override
   public void init() {
-    System.out.println("test");
     Scanner scanner = new Scanner(getServletContext().getResourceAsStream(
-        "/WEB-INF/dec-bike-averages.csv"));
+        "/WEB-INF/dec-bike-averages-mins.csv"));
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine();
       String[] cells = line.split(",");
