@@ -13,11 +13,13 @@
 // limitations under the License.
 
 window.onload = loadPage;
+let map;
 
 /**
  * Function to allow multiple function calls on page load.
  */
 function loadPage() {
+  fetchBlobstoreUrlAndShowForm();
   linkMapAPI();
   showNextPicture();
   checkUserLoginStatus();
@@ -208,6 +210,12 @@ function getMessages() {
           " ("+messages[i]["email"]+")"+"</h4>";
         messageHTML += "<h4 id=\"messageDateTime\">"+messages[i]["dateTime"]+"</h4>";
         messageHTML += "<p>"+messages[i]["message"]+"</p>";
+        if (messages[i]["blobKey"] != null) {
+          fetch("/image-service?blobKey=" + messages[i]["blobKey"])
+          .then(response => response.blob())
+          .then(imageBlob => {
+            messageHTML += "<img src=\""+URL.createObjectURL(imageBlob)+"\">";
+         });
         messageHTML += "<p id=\"sentimentScoreLabel\">This comment received a sentiment score of: </p>";
         if (parseFloat(messages[i]["sentimentScore"]) > 0) {
           messageHTML += "<p id=\"sentimentScoreGood\">"+messages[i]["sentimentScore"]+"</p>";
@@ -215,6 +223,8 @@ function getMessages() {
           messageHTML += "<p id=\"sentimentScoreBad\">"+messages[i]["sentimentScore"]+"</p>";
         } else {
           messageHTML += "<p id=\"sentimentScoreNeutral\">"+messages[i]["sentimentScore"]+"</p>";
+        }
+
         }
         messageHTML += "</div>";
       }
@@ -274,7 +284,16 @@ function drawChart() {
   });
 }
 
-let map; 
+function fetchBlobstoreUrlAndShowForm() {
+  fetch('/blobstore-upload-url')
+      .then((response) => {
+        return response.text();
+      })
+      .then((imageUploadUrl) => {
+        const messageForm = document.getElementById('commentForm');
+        messageForm.action = imageUploadUrl;
+      });
+}
 
 function createMap() {
   map = new google.maps.Map(

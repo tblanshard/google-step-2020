@@ -196,6 +196,11 @@ p, #greeting-container, #desc-container, #daysXmas-container, li {
   color: cadetblue;
 }
 
+#commentImage {
+  height: 100px;
+  width: 100px;
+}
+
 #commentCount {
   padding: 3px;
   width: 100px;
@@ -206,6 +211,11 @@ p, #greeting-container, #desc-container, #daysXmas-container, li {
   background-color: cadetblue;
   padding: 8px;
   margin-top: 20px;
+}
+
+#fileUpload {
+  display: block;
+  margin: 15px 0px;
 }
 
 #removeComments {
