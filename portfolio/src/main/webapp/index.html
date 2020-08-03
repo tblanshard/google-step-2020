@@ -130,12 +130,14 @@
           </select>
         </div>
         <p id="loginMessage-container"></p>
-        <form id="commentForm" action="/data" method="POST">
+        <form id="commentForm" method="POST" enctype="multipart/form-data">
           <h3>Say hi, tell a joke, share a fun fact...</h3>
           <label class="label">Name</label>
           <input type="text" name="userName">
           <label class="label">Message</label>
           <textarea name="userMessage"></textarea>
+          <label class="label">Upload an Image</label>
+          <input id="fileUpload" type="file" name="image">
           <button id="submitComment" type="input">Submit</button>
         </form>
         <button id="removeComments" onclick="deleteMessages()">Delete All Comments</button>
