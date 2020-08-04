@@ -38,23 +38,71 @@ public final class FindMeetingQuery {
 
     //go through the day and work out spare time slots
 
-    Collection<TimeRange> possibleTimes = new ArrayList<>();
+    List<TimeRange> possibleTimes = new ArrayList<>();
 
     int startOfDay = TimeRange.START_OF_DAY;
     int endOfDay = TimeRange.END_OF_DAY;
+
+    //check if there are any events that could clash
+    //if no events - check request is acceptable
+    if (attendedEvents.size() == 0) {
+      if (request.getDuration() <= TimeRange.WHOLE_DAY.duration()) {
+        possibleTimes.add(TimeRange.WHOLE_DAY);
+      }
+      return possibleTimes;
+    }
 
     //add endpoints - i.e. time before first event and time after last event
 
     //sort the events being attended in order of start time to find the event that starts first
     Collections.sort(attendedEvents, TimeRange.ORDER_BY_START);
     TimeRange start = TimeRange.fromStartEnd(startOfDay, attendedEvents.get(0).start(), false);
-    possibleTimes.add(start);
+    //check time range has enough time
+    int startLength = start.duration();
+    if (startLength >= request.getDuration() || Objects.equals(startLength, request.getDuration())){
+      possibleTimes.add(start);
+    }
 
     //sort the events being attended in order of end time to find the event that ends last
     Collections.sort(attendedEvents, TimeRange.ORDER_BY_END);
-    TimeRange end = TimeRange.fromStartEnd(attendedEvents.get(attendedEvents.size() - 1).start(), endOfDay, false);
-    possibleTimes.add(end);
+    TimeRange end = TimeRange.fromStartEnd(attendedEvents.get(attendedEvents.size() - 1).end(), endOfDay, true);
+    //check time range has enough time
+    int endLength = end.duration();
+    if (endLength >= request.getDuration() || Objects.equals(endLength, request.getDuration())){
+      possibleTimes.add(end);
+    }
 
+    //no further checks needed if single event
+    if (attendedEvents.size() == 1) {
+      return possibleTimes;
+    }
+
+    //possible scenarios
+    //1) events are separate - i.e. end of 1 < start of 2
+    //2) events overlap - i.e. end of 1 > start of 2
+    //3) events are contained - i.e. end of 1 > start of 2 && end of 1 > end of 2
+
+    for (int i = 0; i < attendedEvents.size() - 1; i++) {
+      TimeRange currentEvent = attendedEvents.get(i);
+      TimeRange nextEvent = attendedEvents.get(i+1);
+      if (!currentEvent.contains(nextEvent) && !currentEvent.overlaps(nextEvent)) {
+        //case1
+        TimeRange between = TimeRange.fromStartEnd(currentEvent.end(), nextEvent.start(), false);
+        long optionDuration = between.duration();
+        long requestDuration = request.getDuration();
+        if (optionDuration >= requestDuration) {
+          possibleTimes.add(between);
+        }
+      } else if (!currentEvent.contains(nextEvent) && currentEvent.overlaps(nextEvent)) {
+        //case2
+        //do nothing
+      } else if (currentEvent.contains(nextEvent) && !currentEvent.overlaps(nextEvent)) {
+        //case3
+        //do nothing
+      }
+    }
+
+    Collections.sort(possibleTimes, TimeRange.ORDER_BY_START);
     return possibleTimes;
 
   }
