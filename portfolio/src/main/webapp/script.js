@@ -194,42 +194,61 @@ function daysUntilXmas() {
 }
 
 function getMessages() {
+  const messageContainer = document.getElementById("message-container");
+  messageContainer.innerHTML = "";
   var quantity = document.getElementById('commentCount');
   const request = new Request('/data?quantity='+quantity.value, {method:'GET'});
   fetch(request)
   .then(response => response.json())
   .then((messages) => {
     const messageContainer = document.getElementById("message-container");
-    var messageHTML = "";
-    if (messages.length == 0){
-      messageHTML += "<p id=\"noComments\">Looks like no-one has left any comments :( Why not leave one and be the first!<p>";
+    if (messages.length == 0) {
+      const noComments = document.createElement("p");
+      noComments.innerText = "Looks like no-one has left any comments :( Why not leave one and be the first!";
+      noComments.setAttribute("id", "noComments");
+      messageContainer.appendChild(noComments);
     } else {
-      for (var i = 0; i < messages.length; i++){
-        messageHTML += "<div id=\"userComment\">";
-        messageHTML += "<h4 id=\"messageHeader\">"+messages[i]["name"]+
-          " ("+messages[i]["email"]+")"+"</h4>";
-        messageHTML += "<h4 id=\"messageDateTime\">"+messages[i]["dateTime"]+"</h4>";
-        messageHTML += "<p>"+messages[i]["message"]+"</p>";
+      for (var i = 0; i < messages.length; i++) {
+        const commentDiv = document.createElement("div");
+        commentDiv.setAttribute("id", "userComment");
+        const name = document.createElement("h4");
+        name.innerText = messages[i]["name"]+
+          " ("+messages[i]["email"]+")";
+        name.setAttribute("id", "messageHeader");
+        commentDiv.appendChild(name);
+        const dateTime = document.createElement("h4");
+        dateTime.innerText = messages[i]["dateTime"];
+        dateTime.setAttribute("id", "messageDateTime");
+        commentDiv.appendChild(dateTime);
+        const message = document.createElement("p");
+        message.innerText = messages[i]["message"];
+        commentDiv.appendChild(message);
         if (messages[i]["blobKey"] != null) {
           fetch("/image-service?blobKey=" + messages[i]["blobKey"])
           .then(response => response.blob())
           .then(imageBlob => {
-            messageHTML += "<img src=\""+URL.createObjectURL(imageBlob)+"\">";
-         });
-        messageHTML += "<p id=\"sentimentScoreLabel\">This comment received a sentiment score of: </p>";
+            const image = document.createElement("img");
+            image.src = URL.createObjectURL(imageBlob);
+            commentDiv.appendChild(image);
+          });
+        }
+        const sentimentScoreLabel = document.createElement("p");
+        sentimentScoreLabel.innerText = "This comment received a sentiment score of: ";
+        sentimentScoreLabel.setAttribute("id", "sentimentScoreLabel");
+        commentDiv.appendChild(sentimentScoreLabel);
+        const sentimentScore = document.createElement("p");
+        sentimentScore.innerText = messages[i]["sentimentScore"];
         if (parseFloat(messages[i]["sentimentScore"]) > 0) {
-          messageHTML += "<p id=\"sentimentScoreGood\">"+messages[i]["sentimentScore"]+"</p>";
+          sentimentScore.setAttribute("id", "sentimentScoreGood");
         } else if (parseFloat(messages[i]["sentimentScore"]) < 0) {
-          messageHTML += "<p id=\"sentimentScoreBad\">"+messages[i]["sentimentScore"]+"</p>";
+          sentimentScore.setAttribute("id", "sentimentScoreBad");
         } else {
-          messageHTML += "<p id=\"sentimentScoreNeutral\">"+messages[i]["sentimentScore"]+"</p>";
+          sentimentScore.setAttribute("id", "sentimentScoreNeutral");        
         }
-
-        }
-        messageHTML += "</div>";
+        commentDiv.appendChild(sentimentScore);
+        messageContainer.appendChild(commentDiv);
       }
     }
-    messageContainer.innerHTML = messageHTML;
   });
 }
   
