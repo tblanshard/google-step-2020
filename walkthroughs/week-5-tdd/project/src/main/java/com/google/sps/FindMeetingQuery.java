@@ -36,9 +36,6 @@ public final class FindMeetingQuery {
       }
     }
 
-    //sort the events being attended in order of start time
-    Collections.sort(attendedEvents, TimeRange.ORDER_BY_START);
-
     //go through the day and work out spare time slots
 
     Collection<TimeRange> possibleTimes = new ArrayList<>();
@@ -48,11 +45,15 @@ public final class FindMeetingQuery {
 
     //add endpoints - i.e. time before first event and time after last event
 
+    //sort the events being attended in order of start time to find the event that starts first
+    Collections.sort(attendedEvents, TimeRange.ORDER_BY_START);
     TimeRange start = TimeRange.fromStartEnd(startOfDay, attendedEvents.get(0).start(), false);
     possibleTimes.add(start);
 
+    //sort the events being attended in order of end time to find the event that ends last
+    Collections.sort(attendedEvents, TimeRange.ORDER_BY_END);
     TimeRange end = TimeRange.fromStartEnd(attendedEvents.get(attendedEvents.size() - 1).start(), endOfDay, false);
-    possibleTimes.add(start);
+    possibleTimes.add(end);
 
     return possibleTimes;
 
