@@ -14,10 +14,47 @@
 
 package com.google.sps;
 
-import java.util.Collection;
+import java.util.*;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+
+    //input: collection of events and the request
+    //output: collection of possible times the event could be held
+
+    //go through and find all of the events being attended by the attendees of the meeting
+
+    List<TimeRange> attendedEvents = new ArrayList<TimeRange>();
+    Collection<String> meetingAttendees = request.getAttendees();
+
+    for (Event event : events) {
+      Set<String> eventAttendees = event.getAttendees();
+      for (String attendee : meetingAttendees) {
+        if (eventAttendees.contains(attendee)) {
+          attendedEvents.add(event.getWhen());
+        }
+      }
+    }
+
+    //sort the events being attended in order of start time
+    Collections.sort(attendedEvents, TimeRange.ORDER_BY_START);
+
+    //go through the day and work out spare time slots
+
+    Collection<TimeRange> possibleTimes = new ArrayList<>();
+
+    int startOfDay = TimeRange.START_OF_DAY;
+    int endOfDay = TimeRange.END_OF_DAY;
+
+    //add endpoints - i.e. time before first event and time after last event
+
+    TimeRange start = TimeRange.fromStartEnd(startOfDay, attendedEvents.get(0).start(), false);
+    possibleTimes.add(start);
+
+    TimeRange end = TimeRange.fromStartEnd(attendedEvents.get(attendedEvents.size() - 1).start(), endOfDay, false);
+    possibleTimes.add(start);
+
+    return possibleTimes;
+
   }
 }
