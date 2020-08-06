@@ -78,7 +78,54 @@ public final class FindMeetingQuery {
           //if there are no options for the merged events then we ignore
           //the optional attendees
           if (mergedOptions.size() == 0) {
-            return findPossibleSlots(attendedEvents, request.getDuration());
+            //find optimal result
+            //1) identify the slots for the mandatory attendees
+
+            Collection<TimeRange> possibleSlots = findPossibleSlots(attendedEvents, request.getDuration());
+
+            //get all events attended by optional attendees
+            Collection<Event> optionalEventObjects = getEventObjectsForMeetingAttendees(events, optionalAttendees);
+            ArrayList<String> optionalPeopleCopy = new ArrayList<>();
+            optionalPeopleCopy.addAll(optionalAttendees);
+
+            //2) work through each slot and determine number of optional attendees that could make it
+            HashMap<Integer, List<TimeRange>> possibleAttendeeAmounts = new HashMap<>();
+
+            for (TimeRange slot : possibleSlots) {
+              List<Event> clashingEvents = new ArrayList<>();
+              for (Event optionalEvent : optionalEventObjects) {
+                TimeRange duration = optionalEvent.getWhen();
+                if (slot.contains(duration) || slot.overlaps(duration)) {
+                  clashingEvents.add(optionalEvent);
+                }
+              }
+              for (Event clashedEvent : clashingEvents) {
+                Collection<String> attendingOptionalPeople = clashedEvent.getAttendees();
+                for (String person : attendingOptionalPeople) {
+                  if (optionalPeopleCopy.contains(person)) {
+                    optionalPeopleCopy.remove(person);
+                  }
+                }
+              }
+              int numberOfPeopleCanAttend = optionalPeopleCopy.size();
+              if (possibleAttendeeAmounts.keySet().contains(numberOfPeopleCanAttend)) {
+                List<TimeRange> slotList = possibleAttendeeAmounts.get(numberOfPeopleCanAttend);
+                slotList.add(slot);
+                possibleAttendeeAmounts.put(numberOfPeopleCanAttend, slotList);
+              } else {
+                List<TimeRange> slots = Arrays.asList(slot);
+                possibleAttendeeAmounts.put(numberOfPeopleCanAttend, slots);
+              }
+              optionalPeopleCopy.addAll(optionalAttendees);
+            }
+            
+            //3) return the slot(s) with the most attendees
+
+            Collection<Integer> keys = possibleAttendeeAmounts.keySet();
+            Integer maxValue = Collections.max(keys);
+            return possibleAttendeeAmounts.get(maxValue);
+
+            //return findPossibleSlots(attendedEvents, request.getDuration());
           } else {
             return mergedOptions;
           }
@@ -158,6 +205,20 @@ public final class FindMeetingQuery {
       for (String attendee : people) {
         if (eventAttendees.contains(attendee)) {
           attendedEvents.add(event.getWhen());
+        }
+      }
+    }
+    return attendedEvents;        
+  }
+
+  private List<Event> getEventObjectsForMeetingAttendees(Collection<Event> events, Collection<String> people) {
+    List<Event> attendedEvents = new ArrayList<>();
+
+    for (Event event : events) {
+      Set<String> eventAttendees = event.getAttendees();
+      for (String attendee : people) {
+        if (eventAttendees.contains(attendee)) {
+          attendedEvents.add(event);
         }
       }
     }
